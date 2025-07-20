@@ -16,7 +16,7 @@ def supabase_get(endpoint, params=None):
     endpoint: string (nome da tabela ou endpoint)
     params: dicionário de filtros (query params)
     """
-    url = f"{SUPABASE_URL}/{endpoint}"
+    url = f"{SUPABASE_URL}/rest/v1/{endpoint}"
     headers = {
         "apikey": SUPABASE_KEY,
         "Authorization": f"Bearer {SUPABASE_KEY}",
