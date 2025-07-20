@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: API de Transparência - Matuzinhos
+  version: 1.0.0
+  description: Endpoints REST para consulta de dados públicos da cidade de Matuzinhos.
+servers:
+  - url: https://SEU-PROJETO.vercel.app
+
+paths:
+  /despesas/por-projeto:
+    get:
+      summary: Buscar despesas por projeto
+      parameters:
+        - name: des_projetoatividade
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de despesas
+
+  /despesas/extra:
+    get:
+      summary: Buscar despesas extras
+      parameters:
+        - name: fornecedor_nome
+          in: query
+          schema:
+            type: string
+        - name: valor_extra
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Lista de despesas extras
+
+  /servidores/diarias:
+    get:
+      summary: Buscar diárias pagas
+      parameters:
+        - name: nome_servidor
+          in: query
+          schema:
+            type: string
+        - name: valor_pago
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Lista de diárias
+
+  /servidores/gastos:
+    get:
+      summary: Buscar gastos de servidores
+      parameters:
+        - name: nome_servidor
+          in: query
+          schema:
+            type: string
+        - name: mes_referencia
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de gastos
+
+  /servidores:
+    get:
+      summary: Buscar servidores
+      parameters:
+        - name: nome_servidor
+          in: query
+          schema:
+            type: string
+        - name: situacao_atual
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de servidores
+
+  /prestacao-de-contas:
+    get:
+      summary: Buscar prestação de contas
+      parameters:
+        - name: ano
+          in: query
+          schema:
+            type: integer
+        - name: mes
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Arquivos da prestação
+
+  /receita:
+    get:
+      summary: Buscar receitas
+      parameters:
+        - name: Fornecedor
+          in: query
+          schema:
+            type: string
+        - name: Empenhado (R$)
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de receitas
+
+  /licitacoes:
+    get:
+      summary: Buscar licitações
+      parameters:
+        - name: fornecedor_nome
+          in: query
+          schema:
+            type: string
+        - name: numero_licitacao
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Licitações encontradas
