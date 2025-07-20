@@ -24,7 +24,7 @@ def build_despesas_por_projeto_params(args):
 @app.route('/despesas/por-projeto', methods=['GET'])
 def despesas_por_projeto():
     params = build_despesas_por_projeto_params(request.args)
-    data, status = supabase_get('despesa-por-projeto', params)
+    data, status = supabase_get('despesa_por_projeto', params)
     return jsonify(data), status
 
 # 2. /despesas/extra
