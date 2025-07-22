@@ -14,7 +14,9 @@ def safe_float(value):
     except (TypeError, ValueError):
         return None
 
-# 1. /despesas/por-projeto
+
+
+# /despesas/por-projeto
 def build_despesas_por_projeto_params(args):
     params = {}
     if 'des_projetoatividade' in args:
@@ -27,7 +29,7 @@ def despesas_por_projeto():
     data, status = supabase_get('despesa_por_projeto', params)
     return jsonify(data), status
 
-# 2. /despesas/extra
+# /despesas/extra
 def build_despesas_extra_params(args):
     params = {}
     if 'fornecedor_nome' in args:
@@ -44,7 +46,44 @@ def despesas_extra():
     data, status = supabase_get('despesa_extra', params)
     return jsonify(data), status
 
-# 3. /servidores/diarias
+# /despesas/por-secretaria
+
+def build_despesas_por_secretaria_params(args):
+    params = {}
+    if 'codigo_unidade' in args:
+        params['codigo_unidade'] = NUM_FILTER(args['codigo_unidade'])
+    if 'descricao_unidade' in args:
+        params['descricao_unidade'] = STR_FILTER(args['descricao_unidade'])
+    if 'valor_pago' in args:
+        valor = safe_float(args['valor_pago'])
+        if valor is not None:
+            params['valor_pago'] = NUM_FILTER(valor)
+    return params
+
+@app.route('/despesas/por-secretaria', methods=['GET'])
+def despesas_por_secretaria():
+    params = build_despesas_por_secretaria_params(request.args)
+    data, status = supabase_get('despesa_por_secretaria', params)
+    return jsonify(data), status
+
+# despesas/por_elemento
+
+def build_despesas_por_elemento_params(args):
+    params = {}
+    if 'id_elemento' in args:
+        params['id_elemento'] = STR_FILTER(args['id_elemento'])
+    if 'descricao' in args:
+        params['descricao'] = STR_FILTER(args['descricao'])
+    return params
+
+@app.route('/despesas/por-elemento', methods=['GET'])
+def despesas_por_elemento():
+    params = build_despesas_por_elemento_params(request.args)
+    data, status = supabase_get('despesa_por_elemento', params)
+    return jsonify(data), status
+
+
+# /servidores/diarias
 def build_servidores_diarias_params(args):
     params = {}
     if 'nome_servidor' in args:
@@ -53,13 +92,14 @@ def build_servidores_diarias_params(args):
         params['valor_pago'] = NUM_FILTER(args['valor_pago'])
     return params
 
+
 @app.route('/servidores/diarias', methods=['GET'])
 def servidores_diarias():
     params = build_servidores_diarias_params(request.args)
     data, status = supabase_get('pessoal_diaria', params)
     return jsonify(data), status
 
-# 4. /servidores/gastos
+# /servidores/gastos
 def build_servidores_gastos_params(args):
     params = {}
     if 'nome_servidor' in args:
@@ -74,7 +114,7 @@ def servidores_gastos():
     data, status = supabase_get('pessoal_gasto', params)
     return jsonify(data), status
 
-# 5. /servidores
+# /servidores
 def build_servidores_params(args):
     params = {}
     if 'nome_servidor' in args:
@@ -89,7 +129,7 @@ def servidores():
     data, status = supabase_get('pessoal_servidores', params)
     return jsonify(data), status
 
-# 6. /prestacao-de-contas
+# /prestacao-de-contas
 def build_prestacao_de_contas_params(args):
     params = {}
     if 'ano' in args:
@@ -104,7 +144,7 @@ def prestacao_de_contas():
     data, status = supabase_get('prestacacaodecontas', params)
     return jsonify(data), status
 
-# 7. /receita
+# /receita
 def build_receita_params(args):
     params = {}
     if 'Fornecedor' in args:
@@ -119,7 +159,7 @@ def receita():
     data, status = supabase_get('receita', params)
     return jsonify(data), status
 
-# 8. /licitacoes
+# /licitacoes
 def build_licitacoes_params(args):
     params = {}
     if 'fornecedor_nome' in args:
