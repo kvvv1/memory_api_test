@@ -38,6 +38,10 @@ def build_despesas_extra_params(args):
         valor = safe_float(args['valor_extra'])
         if valor is not None:
             params['valor_extra'] = NUM_FILTER(valor)
+    if 'numero_extra' in args:
+        numero = safe_float(args['numero_extra'])
+        if numero is not None:
+            params['numero_extra'] = NUM_FILTER(int(numero))
     return params
 
 @app.route('/despesas/extra', methods=['GET'])
