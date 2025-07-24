@@ -21,7 +21,12 @@ def build_despesas_por_projeto_params(args):
     params = {}
     if 'des_projetoatividade' in args:
         params['des_projetoatividade'] = STR_FILTER(args['des_projetoatividade'])
+    if 'cod_projetoatividade' in args:
+        cod = safe_float(args['cod_projetoatividade'])
+        if cod is not None:
+            params['cod_projetoatividade'] = NUM_FILTER(int(cod))
     return params
+
 
 @app.route('/despesas/por-projeto', methods=['GET'])
 def despesas_por_projeto():
