@@ -74,13 +74,15 @@ def servidores_gastos():
     data, status = supabase_get('pessoal_gasto', params)
     return jsonify(data), status
 
-# 5. /servidores
+# 5. /servidores 
 def build_servidores_params(args):
     params = {}
     if 'nome_servidor' in args:
         params['nome_servidor'] = STR_FILTER(args['nome_servidor'])
     if 'situacao_atual' in args:
         params['situacao_atual'] = STR_FILTER(args['situacao_atual'])
+    if 'numero_matricula' in args:
+        params['numero_matricula'] = NUM_FILTER(args['numero_matricula'])
     return params
 
 @app.route('/servidores', methods=['GET'])
