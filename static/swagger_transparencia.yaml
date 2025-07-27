@@ -35,6 +35,42 @@ paths:
         '200':
           description: Lista de despesas extras
 
+  /despesas/por-secretaria:
+    get:
+      summary: Buscar despesas por secretaria/unidade
+      parameters:
+        - name: descricao_unidade
+          in: query
+          schema:
+            type: string
+        - name: codigo_unidade
+          in: query
+          schema:
+            type: string
+        - name: valor_pago
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Lista de despesas por secretaria
+
+  /despesas/por-elemento:
+    get:
+      summary: Buscar despesas por elemento econômico
+      parameters:
+        - name: id_elemento
+          in: query
+          schema:
+            type: string
+        - name: descricao
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de despesas por elemento
+
   /servidores/diarias:
     get:
       summary: Buscar diárias pagas
