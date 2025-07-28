@@ -116,7 +116,9 @@ def build_servidores_gastos_params(args):
     if 'mes_referencia' in args:
         params['mes_referencia'] = STR_FILTER(args['mes_referencia'])
     if 'numero_matricula' in args:
-        params['numero_matricula'] = STR_FILTER(args['numero_matricula'])
+        matricula = safe_float(args['numero_matricula'])
+        if matricula is not None:
+            params['numero_matricula'] = NUM_FILTER(int(matricula))
     return params
 
 @app.route('/servidores/gastos', methods=['GET'])
