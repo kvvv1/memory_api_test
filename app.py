@@ -115,6 +115,8 @@ def build_servidores_gastos_params(args):
         params['nome_servidor'] = STR_FILTER(args['nome_servidor'])
     if 'mes_referencia' in args:
         params['mes_referencia'] = STR_FILTER(args['mes_referencia'])
+    if 'numero_matricula' in args:
+        params['numero_matricula'] = STR_FILTER(args['numero_matricula'])
     return params
 
 @app.route('/servidores/gastos', methods=['GET'])
