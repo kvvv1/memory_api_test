@@ -167,7 +167,17 @@ def build_receita_params(args):
         params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
     if 'Data Empenho' in args:  
         params['Data Empenho'] = STR_FILTER(args['Data Empenho'])
+    if 'numero_empenho' in args:  # ✅ NOVO PARÂMETRO
+        numero = safe_float(args['numero_empenho'])
+        if numero is not None:
+            params['N° Empenho'] = NUM_FILTER(int(numero))
     return params
+
+@app.route('/receita', methods=['GET'])
+def receita():
+    params = build_receita_params(request.args)
+    data, status = supabase_get('receita', params)
+    return jsonify(data), status
 
 
 
