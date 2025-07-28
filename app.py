@@ -144,6 +144,8 @@ def build_prestacao_de_contas_params(args):
         params['ano'] = NUM_FILTER(args['ano'])
     if 'mes' in args:
         params['mes'] = NUM_FILTER(args['mes'])
+    if 'descricao' in args:  # ← ADICIONE ESTA LINHA
+        params['descricao'] = STR_FILTER(args['descricao'])
     return params
 
 @app.route('/prestacao-de-contas', methods=['GET'])
