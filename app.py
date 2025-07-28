@@ -14,8 +14,6 @@ def safe_float(value):
     except (TypeError, ValueError):
         return None
 
-
-
 # /despesas/por-projeto
 def build_despesas_por_projeto_params(args):
     params = {}
@@ -26,7 +24,6 @@ def build_despesas_por_projeto_params(args):
         if cod is not None:
             params['cod_projetoatividade'] = NUM_FILTER(int(cod))
     return params
-
 
 @app.route('/despesas/por-projeto', methods=['GET'])
 def despesas_por_projeto():
@@ -56,7 +53,6 @@ def despesas_extra():
     return jsonify(data), status
 
 # /despesas/por-secretaria
-
 def build_despesas_por_secretaria_params(args):
     params = {}
     if 'codigo_unidade' in args:
@@ -75,8 +71,7 @@ def despesas_por_secretaria():
     data, status = supabase_get('despesa_por_secretaria', params)
     return jsonify(data), status
 
-# despesas/por_elemento
-
+# /despesas/por-elemento
 def build_despesas_por_elemento_params(args):
     params = {}
     if 'id_elemento' in args:
@@ -91,7 +86,6 @@ def despesas_por_elemento():
     data, status = supabase_get('despesa_por_elemento', params)
     return jsonify(data), status
 
-
 # /servidores/diarias
 def build_servidores_diarias_params(args):
     params = {}
@@ -100,7 +94,6 @@ def build_servidores_diarias_params(args):
     if 'valor_pago' in args:
         params['valor_pago'] = NUM_FILTER(args['valor_pago'])
     return params
-
 
 @app.route('/servidores/diarias', methods=['GET'])
 def servidores_diarias():
@@ -127,6 +120,7 @@ def servidores_gastos():
     data, status = supabase_get('pessoal_gasto', params)
     return jsonify(data), status
 
+# /servidores
 def build_servidores_params(args):
     params = {}
     if 'nome_servidor' in args:
@@ -159,16 +153,14 @@ def prestacao_de_contas():
     return jsonify(data), status
 
 # /receita
-# /receita
 def build_receita_params(args):
     params = {}
     if 'Fornecedor' in args:
         params['Fornecedor'] = STR_FILTER(args['Fornecedor'])
     if 'Empenhado (R$)' in args:
         params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
-    if 'Data Empenho' in args:  
+    if 'Data Empenho' in args:
         params['Data Empenho'] = STR_FILTER(args['Data Empenho'])
-    
     if 'numero_empenho' in args:
         try:
             numero = safe_float(args['numero_empenho'])
@@ -176,18 +168,7 @@ def build_receita_params(args):
                 params['N° Empenho'] = NUM_FILTER(int(numero))
         except Exception as e:
             print(f"Erro ao processar numero_empenho: {e}")
-            pass
-    
     return params
-
-
-@app.route('/receita', methods=['GET'])
-def receita():
-    params = build_receita_params(request.args)
-    data, status = supabase_get('receita', params)
-    return jsonify(data), status
-
-
 
 @app.route('/receita', methods=['GET'])
 def receita():
@@ -201,12 +182,17 @@ def receita_total():
     data, status = supabase_get('receita', params)
 
     try:
-        total = sum(float(row.get('Empenhado (R$)', 0)) for row in data)
-    except (ValueError, TypeError):
+        if isinstance(data, list):
+            total = sum(
+                float(row.get('Empenhado (R$)', 0) or 0) for row in data if isinstance(row, dict)
+            )
+        else:
+            total = 0
+    except (ValueError, TypeError) as e:
+        print(f"Erro ao somar receita: {e}")
         total = 0
 
     return jsonify({'total_receita': total}), status
-
 
 # /licitacoes
 def build_licitacoes_params(args):
@@ -239,4 +225,4 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
