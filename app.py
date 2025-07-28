@@ -157,15 +157,15 @@ def build_receita_params(args):
     params = {}
     if 'Fornecedor' in args:
         params['Fornecedor'] = STR_FILTER(args['Fornecedor'])
-    if 'Empenhado (R$)' in args:
-        params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
-    if 'Data Empenho' in args:
-        params['Data Empenho'] = STR_FILTER(args['Data Empenho'])
+    if 'valor_empenhado' in args:
+        params['valor_empenhado'] = NUM_FILTER(args['valor_empenhado'])
+    if 'data_empenho' in args:
+        params['data_empenho'] = STR_FILTER(args['data_empenho'])
     if 'numero_empenho' in args:
         try:
             numero = safe_float(args['numero_empenho'])
             if numero is not None:
-                params['N° Empenho'] = NUM_FILTER(int(numero))
+                params['numero_empenho'] = NUM_FILTER(int(numero))
         except Exception as e:
             print(f"Erro ao processar numero_empenho: {e}")
     return params
