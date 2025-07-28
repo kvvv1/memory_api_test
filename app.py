@@ -165,11 +165,10 @@ def build_receita_params(args):
         params['Fornecedor'] = STR_FILTER(args['Fornecedor'])
     if 'Empenhado (R$)' in args:
         params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
-    if 'ano' in args:
-        params['ano'] = NUM_FILTER(args['ano'])
-    if 'mes' in args:
-        params['mes'] = NUM_FILTER(args['mes'])
+    if 'Data Empenho' in args:  
+        params['Data Empenho'] = STR_FILTER(args['Data Empenho'])
     return params
+
 
 
 @app.route('/receita', methods=['GET'])
