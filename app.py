@@ -165,13 +165,31 @@ def build_receita_params(args):
         params['Fornecedor'] = STR_FILTER(args['Fornecedor'])
     if 'Empenhado (R$)' in args:
         params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
+    if 'ano' in args:
+        params['ano'] = NUM_FILTER(args['ano'])
+    if 'mes' in args:
+        params['mes'] = NUM_FILTER(args['mes'])
     return params
+
 
 @app.route('/receita', methods=['GET'])
 def receita():
     params = build_receita_params(request.args)
     data, status = supabase_get('receita', params)
     return jsonify(data), status
+
+@app.route('/receita/total', methods=['GET'])
+def receita_total():
+    params = build_receita_params(request.args)
+    data, status = supabase_get('receita', params)
+
+    try:
+        total = sum(float(row.get('Empenhado (R$)', 0)) for row in data)
+    except (ValueError, TypeError):
+        total = 0
+
+    return jsonify({'total_receita': total}), status
+
 
 # /licitacoes
 def build_licitacoes_params(args):

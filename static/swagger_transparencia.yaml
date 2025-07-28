@@ -15,6 +15,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: cod_projetoatividade
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Lista de despesas
@@ -31,6 +35,10 @@ paths:
           in: query
           schema:
             type: number
+        - name: numero_extra
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Lista de despesas extras
@@ -46,7 +54,7 @@ paths:
         - name: codigo_unidade
           in: query
           schema:
-            type: string
+            type: integer
         - name: valor_pago
           in: query
           schema:
@@ -99,6 +107,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: numero_matricula
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Lista de gastos
@@ -115,6 +127,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: numero_matricula
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Lista de servidores
@@ -147,9 +163,37 @@ paths:
           in: query
           schema:
             type: string
+        - name: ano
+          in: query
+          schema:
+            type: integer
+        - name: mes
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Lista de receitas
+
+  /receita/total:
+    get:
+      summary: Buscar total de receita por período
+      parameters:
+        - name: Fornecedor
+          in: query
+          schema:
+            type: string
+        - name: ano
+          in: query
+          schema:
+            type: integer
+        - name: mes
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Total de receita filtrada por período ou fornecedor
 
   /licitacoes:
     get:
