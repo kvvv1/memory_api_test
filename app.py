@@ -159,6 +159,7 @@ def prestacao_de_contas():
     return jsonify(data), status
 
 # /receita
+# /receita
 def build_receita_params(args):
     params = {}
     if 'Fornecedor' in args:
@@ -167,11 +168,18 @@ def build_receita_params(args):
         params['Empenhado (R$)'] = NUM_FILTER(args['Empenhado (R$)'])
     if 'Data Empenho' in args:  
         params['Data Empenho'] = STR_FILTER(args['Data Empenho'])
-    if 'numero_empenho' in args:  # ✅ NOVO PARÂMETRO
-        numero = safe_float(args['numero_empenho'])
-        if numero is not None:
-            params['N° Empenho'] = NUM_FILTER(int(numero))
+    
+    if 'numero_empenho' in args:
+        try:
+            numero = safe_float(args['numero_empenho'])
+            if numero is not None:
+                params['N° Empenho'] = NUM_FILTER(int(numero))
+        except Exception as e:
+            print(f"Erro ao processar numero_empenho: {e}")
+            pass
+    
     return params
+
 
 @app.route('/receita', methods=['GET'])
 def receita():
